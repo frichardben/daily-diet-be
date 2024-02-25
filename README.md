@@ -27,6 +27,8 @@ $ git clone https://github.com/frichardben/daily-diet-be
 $ cd daily-diet-be
 # Install dependencies
 $ npm i
+# Run migrate
+$ npm run knex migrate:latest
 # Run the project
 $ npm run dev
 ```
