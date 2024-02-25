@@ -1,9 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { GetAllMealsUseCase } from './getAllMealsUseCase';
+import { GetMealsAllUseCase } from './getMealsAllUseCase';
 
-export class GetAllMealsController {
+export class GetMealsAllController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
-    const getAllMealsUseCase = new GetAllMealsUseCase();
+    const getAllMealsUseCase = new GetMealsAllUseCase();
 
     const { sessionId } = request.cookies;
 
