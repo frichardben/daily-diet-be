@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { GetMealByIdUseCase } from './getMealByIdUseCase';
 import { z } from 'zod';
+import { knex } from '../../../../database';
 
 export class GetMealByIdController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
@@ -10,7 +11,9 @@ export class GetMealByIdController {
 
     const { mealId } = mealIdParamsSchema.parse(request.params);
 
-    if (!mealId) {
+    const meal = await knex('meals').where({ id: mealId }).first();
+
+    if (!meal) {
       reply.status(404).send({ error: 'Meal not found' });
     }
 
