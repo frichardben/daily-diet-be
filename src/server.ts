@@ -4,7 +4,7 @@ import { userRoutes } from './routes/userRoutes';
 import { env } from './infra/env';
 import { mealRoutes } from './routes/mealRoutes';
 
-const app = fastify();
+export const app = fastify();
 
 app.register(cookies);
 
