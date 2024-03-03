@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { DeleteUseCase } from './deleteMealUseCase';
 import { z } from 'zod';
-import { knex } from '../../../../database';
 
 export class DeleteMealController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
@@ -11,15 +10,13 @@ export class DeleteMealController {
 
     const { mealId } = mealIdParamsSchema.parse(request.params);
 
-    const meal = await knex('meals').where({ id: mealId }).first();
+    const deleteMealUseCase = new DeleteUseCase();
+
+    const meal = await deleteMealUseCase.execute(mealId);
 
     if (!meal) {
       reply.status(404).send({ error: 'Meal not found' });
     }
-
-    const deleteMealUseCase = new DeleteUseCase();
-
-    await deleteMealUseCase.execute(mealId);
 
     return reply.status(204).send();
   }

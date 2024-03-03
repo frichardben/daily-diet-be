@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import { EditMealByIdUseCase } from './editMealByIdUseCase';
-import { knex } from '../../../../database';
 
 export class EditMealByIdController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
@@ -22,21 +21,19 @@ export class EditMealByIdController {
       request.body
     );
 
-    const meal = await knex('meals').where({ id: mealId }).first();
-
-    if (!meal) {
-      reply.status(404).send({ error: 'Meal not found' });
-    }
-
     const editMealByIdUseCase = new EditMealByIdUseCase();
 
-    await editMealByIdUseCase.execute({
+    const meal = await editMealByIdUseCase.execute({
       name,
       description,
       isOnDiet,
       date,
       mealId,
     });
+
+    if (!meal) {
+      return reply.status(404).send({ error: 'Meal not found' });
+    }
 
     return reply.status(204).send();
   }
